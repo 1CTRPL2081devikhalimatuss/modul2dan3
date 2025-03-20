@@ -1,0 +1,80 @@
+class Mahasiswa implements Comparable<Mahasiswa> {
+  String nrp; // Nomor Registrasi Mahasiswa
+  String nama; // Nama Mahasiswa
+
+  // Constructor untuk menginisialisasi nrp dan nama
+  Mahasiswa(this.nrp, this.nama);
+
+  @override
+  String toString() {
+    // Representasi string dari objek Mahasiswa
+    return 'Mahasiswa(nrp: $nrp, nama: $nama)';
+  }
+
+  @override
+  int compareTo(Mahasiswa other) {
+    // Membandingkan berdasarkan nrp
+    return this.nrp.compareTo(other.nrp);
+  }
+}
+
+class Latihan {
+  static int partition<T extends Comparable<T>>(List<T> arr, int p, int r) {
+    T pivot = arr[r]; // Memilih elemen terakhir sebagai pivot
+    int i = p - 1; // Indeks elemen yang lebih kecil
+
+    for (int j = p; j < r; j++) {
+      // Jika elemen saat ini lebih kecil dari atau sama dengan pivot
+      if (arr[j].compareTo(pivot) <= 0) {
+        i++;
+        // Tukar arr[i] dan arr[j]
+        T temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+    // Tukar arr[i + 1] dan arr[r] (pivot)
+    T temp = arr[i + 1];
+    arr[i + 1] = arr[r];
+    arr[r] = temp;
+    return i + 1; // Kembalikan indeks pivot
+  }
+
+  static void quickSort<T extends Comparable<T>>(List<T> arr, int p, int r) {
+    if (p < r) {
+      int q = partition(arr, p, r); // Partisi
+      quickSort(arr, p, q - 1); // Urutkan bagian kiri
+      quickSort(arr, q + 1, r); // Urutkan bagian kanan
+    }
+  }
+
+  static void tampil<T>(List<T> data) {
+    for (var item in data) {
+      print(item);
+    }
+  }
+
+  static void main() {
+    List<Mahasiswa> arr8 = [
+      Mahasiswa("02", "Budi"),
+      Mahasiswa("01", "Andi"),
+      Mahasiswa("04", "Udin"),
+      Mahasiswa("03", "Candra")
+    ];
+
+    print('Data Sebelum Pengurutan:');
+    tampil(arr8);
+
+    DateTime startTime = DateTime.now();
+    quickSort(arr8, 0, arr8.length - 1); // Mengurutkan menggunakan QuickSort
+    Duration elapsedTime = DateTime.now().difference(startTime);
+
+    print('Data Setelah Pengurutan:');
+    tampil(arr8);
+    print("Waktu: ${elapsedTime.inMilliseconds} ms");
+  }
+}
+
+void main() {
+  Latihan.main();
+}
